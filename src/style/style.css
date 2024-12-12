@@ -1,0 +1,12 @@
+/* Base Application Styles */
+@import url('https://fonts.googleapis.com/css?family=Permanent+Marker|Righteous&display=swap');
+
+* {
+    font-family: 'Righteous', sans-serif;
+  }
+
+  body {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
