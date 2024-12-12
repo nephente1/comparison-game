@@ -1,4 +1,4 @@
-import { makeAutoObservable } from 'mobx';
+import { makeAutoObservable, runInAction } from 'mobx';
 
 interface ResponseItemType {
   name: string;
@@ -28,7 +28,9 @@ export class GameState {
       console.error('fetch error', err);
       alert(err);
     } finally {
-      this.isLoading = false;
+      runInAction(() => (
+        this.isLoading = false
+      ));
     }
   }
 

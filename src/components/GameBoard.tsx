@@ -5,18 +5,20 @@ import {Cards} from './Cards';
 import {TextInHeader, MainText, Button, NamesBox , ResultsWrapper, CardsWrapper, TitleText, NewGame, Spinner} from '../style/gameBoard.styles';
 
 export const GameBoard = observer(() => {
-  const state = useMemo(() => new GameState(), []);
+
+  // getting values from global mobx state through destructuring:
+  const { isLoading, chosenCards, playerOnePoint, computerPoint, attemptsTaken, loadData, pickCards, resetValues } = useMemo(() => new GameState(), []);
 
   useEffect(() => {
-    state.loadData();
-  }, [state]);
+    loadData();
+  }, [loadData]);
 
-  const massArray = state.chosenCards.map((el) => parseFloat(el.mass));
+  const massArray = chosenCards.map((el) => parseFloat(el.mass));
   const maxMass = Math.max.apply(null, massArray);
 
   const renderCards = () => {
-    if (state.chosenCards !== null) {
-      return state.chosenCards.map((el, id) => (
+    if (chosenCards !== null) {
+      return chosenCards.map((el, id) => (
         <Cards
           name={el.name}
           gender={el.gender}
@@ -34,23 +36,23 @@ export const GameBoard = observer(() => {
       <header>
         <MainText>Choose cards</MainText>
         <TextInHeader>Player with bigger mass wins</TextInHeader>
-        <TextInHeader>Attempts taken: {state?.attemptsTaken}</TextInHeader>
-        <Button onClick={state.pickCards}>PLAY!</Button>
+        <TextInHeader>Attempts taken: {attemptsTaken}</TextInHeader>
+        <Button onClick={pickCards}>PLAY!</Button>
       </header>
 
-      {state.isLoading && <Spinner />}
+      {isLoading && <Spinner />}
       <ResultsWrapper>
         <CardsWrapper>
           <h2>Player One</h2>
-          <TitleText>Points: {state.playerOnePoint}</TitleText>
+          <TitleText>Points: {playerOnePoint}</TitleText>
         </CardsWrapper>
         <CardsWrapper>
           <h2>Computer</h2>
-          <TitleText>Points: {state.computerPoint}</TitleText>
+          <TitleText>Points: {computerPoint}</TitleText>
         </CardsWrapper>
       </ResultsWrapper>
       <ResultsWrapper>{renderCards()}</ResultsWrapper>
-      <NewGame onClick={state.resetValues}>New game</NewGame>
+      <NewGame onClick={resetValues}>New game</NewGame>
     </NamesBox>
   );
 });
